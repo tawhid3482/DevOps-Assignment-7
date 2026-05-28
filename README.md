@@ -197,6 +197,8 @@ jobs:
 
 ### Grafana Dashboard
 
+![Grafana Dashboard](screenshot/gafana-2.png)
+
 ![Grafana Dashboard](screenshot/grafana-mail-send.png)
 
 ### Grafana Email Alert
