@@ -1,28 +1,28 @@
+
 # 📊 Module 7 Assignment — Observability & CI/CD on AWS EC2
 
 ## 🚀 Project Overview
 
-This project demonstrates the deployment of a backend application on AWS EC2 with a full observability and monitoring stack. It includes Prometheus, Grafana, Node Exporter, CI/CD automation using GitHub Actions, and SMTP-based email alerting for critical system issues.
+This repository demonstrates a complete AWS EC2 deployment with observability and automation.
+The solution includes:
+- a backend Node.js/Express application
+- Prometheus and Node Exporter for metrics collection
+- Grafana for dashboards
+- GitHub Actions for CI/CD
+- SMTP-based email alerting for critical events
 
 ---
 
 ## 🏗️ Architecture
 
-GitHub Repository  
-↓  
-GitHub Actions (CI/CD Pipeline)  
-↓  
-AWS EC2 Instance  
-↓  
-Backend Application (Node.js/Express)  
-↓  
-Database (MongoDB/PostgreSQL)  
-↓  
-Prometheus + Node Exporter  
-↓  
-Grafana Dashboard  
-↓  
-Email Alerts (SMTP Gmail)
+1. GitHub repository
+2. GitHub Actions CI/CD pipeline
+3. AWS EC2 instance
+4. Backend application (Node.js / Express)
+5. Database layer (MongoDB / PostgreSQL)
+6. Prometheus + Node Exporter
+7. Grafana dashboards
+8. Email alerts via SMTP
 
 ---
 
@@ -31,7 +31,7 @@ Email Alerts (SMTP Gmail)
 - Node.js / Express.js
 - MongoDB / PostgreSQL
 - AWS EC2
-- GitHub Actions (CI/CD)
+- GitHub Actions
 - Prometheus
 - Grafana
 - Node Exporter
@@ -39,85 +39,112 @@ Email Alerts (SMTP Gmail)
 
 ---
 
-## 🚀 Features
+## 🌟 Features
 
-- Backend deployed on AWS EC2
-- Database integration
-- Fully automated CI/CD pipeline using GitHub Actions
-- System monitoring (CPU, RAM, Disk, Network)
-- Prometheus metrics collection
-- Grafana dashboards for visualization
-- Node Exporter for system-level metrics
-- Email alerts for critical system issues
-
----
-
-## 🖥️ EC2 Setup
-
-### Open required ports:
-- 22 → SSH
-- 3000 → Backend App
-- 3001 → Grafana
-- 9090 → Prometheus
-- 9100 → Node Exporter
+- Deploy backend service to AWS EC2
+- Integrate database support
+- Automate deployment with GitHub Actions
+- Monitor host metrics: CPU, RAM, disk, network
+- Collect metrics through Prometheus
+- Visualize metrics in Grafana
+- Send email alerts for critical issues
 
 ---
 
-## 📦 Backend Setup
+## 🖥️ EC2 Networking
+
+Open the following ports on the EC2 security group:
+
+- `22` → SSH access
+- `3000` → Backend application
+- `3001` → Grafana UI
+- `9090` → Prometheus UI
+- `9100` → Node Exporter metrics
+
+---
+
+## 🚀 Backend Setup
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/tawhid3482/Backend-Devops-Assignment.git
 cd your-repo
 npm install
 npm start
+```
 
-App runs on:
+Application URL:
 
-http://<EC2_IP>:3000
-📊 Monitoring Stack
-🔹 Node Exporter
-http://<EC2_IP>:9100/metrics
-🔹 Prometheus Config
+`http://<EC2_IP>:3000`
+
+---
+
+## 📈 Monitoring Stack
+
+### Node Exporter
+
+Metrics endpoint:
+
+`http://<EC2_IP>:9100/metrics`
+
+### Prometheus configuration sample
+
+```yaml
 scrape_configs:
   - job_name: 'node'
     static_configs:
       - targets: ['localhost:9100']
-🔹 Grafana Dashboard
-http://<EC2_IP>:3000
+```
 
-Login:
+### Grafana Dashboard
 
-Username: admin
-Password: admin
-🚨 Alerting System
-Alert Rules:
-CPU usage high
-Low memory availability
-System load spike
-📩 SMTP Email Setup (Grafana)
+Access Grafana at:
 
-Edit /etc/grafana/grafana.ini
+`http://<EC2_IP>:3001`
 
+Default login:
+
+- Username: `admin`
+- Password: `admin`
+
+---
+
+## 📩 Grafana Email Alerting
+
+Update Grafana SMTP settings in `/etc/grafana/grafana.ini`:
+
+```ini
 [smtp]
 enabled = true
 host = smtp.gmail.com:587
-user = your-email@gmail.com
+user = tawhidulislam3482@gmail.com
 password = YOUR_APP_PASSWORD
-from_address = your-email@gmail.com
+from_address = tawhidulislam3482@gmail.com
 from_name = Grafana
 skip_verify = true
-📬 Contact Point
-Type: Email
-Recipient: your-email@gmail.com
-Alerts are sent automatically when thresholds are breached
-🔄 CI/CD Pipeline (GitHub Actions)
+```
 
-On every push to main branch:
+Configure a Grafana contact point:
 
-Code deployed to EC2
-Dependencies installed
-Server restarted
-Example Workflow
+- Type: Email
+- Recipient: `your-email@gmail.com`
+
+Alerts trigger automatically when configured thresholds are exceeded.
+
+---
+
+## 🔄 CI/CD Pipeline
+
+The GitHub Actions workflow deploys the application on every push to the `main` branch.
+The pipeline includes:
+
+- checkout code
+- deploy via SSH to EC2
+- install dependencies
+- restart the application
+
+Example workflow:
+
+```yaml
 name: Deploy to EC2
 
 on:
@@ -142,67 +169,68 @@ jobs:
             git pull origin main
             npm install
             pm2 restart all
-
-# Screenshot Prove
-
-## EC2 
-![EC2 ](screenshot/ec2-a7.png)
-## Server Backend
-![Server running](screenshot/server-running-1.png)
-
-
-## Ci/CD
-
-![CI CD](screenshot/ci-cd.png)
-
-
-
-## Browser Output
-## prometheus 
-
-![prometheus](screenshot/prometheus-1.png)
-
-## node_ex
-
-![Node_ex](screenshot/node-ex.png)
-
-## Grafana Dashboard
-
-![Grafana Dashboard](screenshot/grafana-mail-send.png)
-
-## Grafana Mail 
-
-![Grafana mail](screenshot/grafana-mail-send.png)
-![Grafana mail](screenshot/mail-send.png)
-
-
-📈 Learning Outcomes
-
-AWS EC2 deployment
-CI/CD automation with GitHub Actions
-System monitoring with Prometheus & Grafana
-Server metrics collection using Node Exporter
-Email alerting using SMTP
-Production-level DevOps pipeline setup
-🎯 Final Status
-Backend Deployment ✅
-Database Setup ✅
-CI/CD Pipeline ✅
-Prometheus Monitoring ✅
-Grafana Dashboard ✅
-Node Exporter ✅
-Email Alerts ✅
-
-
-🏁 Conclusion
-
-This project demonstrates a complete DevOps pipeline with deployment, monitoring, automation, and alerting on AWS EC2.
-
+```
 
 ---
 
-👍 Done!
+## 🖼️ Screenshots
 
-এখন শুধু:
-```bash
-README.md → paste → commit → push
+### EC2 Instance
+
+![EC2](screenshot/ec2-a7.png)
+
+### Backend Server
+
+![Server running](screenshot/server-running-1.png)
+
+### CI/CD Pipeline
+
+![CI CD](screenshot/ci-cd.png)
+
+### Prometheus
+
+![prometheus](screenshot/prometheus-1.png)
+
+### Node Exporter
+
+![Node_ex](screenshot/node-ex.png)
+
+### Grafana Dashboard
+
+![Grafana Dashboard](screenshot/grafana-mail-send.png)
+
+### Grafana Email Alert
+
+![Grafana mail](screenshot/grafana-mail-send.png)
+
+![Grafana mail](screenshot/mail-send.png)
+
+---
+
+## 🧠 Learning Outcomes
+
+- AWS EC2 deployment
+- CI/CD automation with GitHub Actions
+- System monitoring with Prometheus and Grafana
+- Metrics collection using Node Exporter
+- Email alerting using SMTP
+- End-to-end DevOps pipeline setup
+
+---
+
+## ✅ Final Status
+
+- Backend Deployment: ✅
+- Database Setup: ✅
+- CI/CD Pipeline: ✅
+- Prometheus Monitoring: ✅
+- Grafana Dashboard: ✅
+- Node Exporter: ✅
+- Email Alerts: ✅
+
+---
+
+## 🏁 Conclusion
+
+This project implements a production-style observability and deployment pipeline on AWS EC2, combining monitoring, automation, and alerting for a reliable backend service.
+
